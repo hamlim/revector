@@ -1,8 +1,7 @@
 {
-  "name": "svg-path-component",
+  "name": "revector",
   "version": "1.0.0",
-  "description":
-    "Concept for a Path component for svg that should make it easier to compose svg Paths.",
+  "description": "Coming Soon",
   "keywords": ["svg", "path", "react"],
   "main": "src/index.js",
   "dependencies": {
