@@ -60,8 +60,8 @@ const convertCubicBezierChildren = (childrenArray, state) =>
       }
     } else if (child.type.$type === PathTypes.cubicBezierControl) {
       acc.control = {
-        x: callOrReturn(child.props.x)(state),
-        y: callOrReturn(child.props.y)(state),
+        x: callOrReturn(child.props.x)(state) || '',
+        y: callOrReturn(child.props.y)(state) || '',
       }
     } else {
       acc.end = {
@@ -137,7 +137,11 @@ export class Path extends React.Component {
             type = 'S'
           }
         }
-        let { start, control, end } = convertCubicBezierChildren(
+        let {
+          start,
+          control = { x: '', y: '' },
+          end,
+        } = convertCubicBezierChildren(
           Children.toArray(child.props.children),
           this.state,
         )
@@ -146,9 +150,9 @@ export class Path extends React.Component {
           x: end.x,
           y: end.y,
         }
-        return `${path} ${type} ${start.x},${start.y} ${control.x},${
-          control.y
-        } ${end.x},${end.y}`
+        return `${path} ${type} ${start.x},${start.y} ${
+          control.x ? `${control.x},` : ''
+        }${control.y} ${end.x},${end.y}`
       }
       return path
     }, '')
