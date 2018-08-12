@@ -25,6 +25,7 @@ import React from 'react'
 const PathTypes = {
   move: 'MOVE',
   line: 'LINE',
+  cubicBezier: 'CUBIC_BEZIER',
 }
 
 export const Move = ({ x, y }) => null
@@ -33,6 +34,9 @@ Move.$type = PathTypes.move
 export const Line = ({ x, y }) => null
 Line.$type = PathTypes.line
 
+export const CubicBezier = ({ x, y, x1, y1, x2, y2 }) => null
+CubicBezier.$type = PathTypes.cubicBezier
+
 export class Path extends React.Component {
   state = {
     x: 0,
@@ -40,14 +44,13 @@ export class Path extends React.Component {
   }
   convertChildren = childrenArr =>
     childrenArr.reduce((path, child) => {
+      let type, x, y
       if (child.type.$type === PathTypes.move) {
-        let type
         if (child.props.local) {
           type = 'm'
         } else {
           type = 'M'
         }
-        let x, y
         if (typeof child.props.x === 'function') {
           x = child.props.x(this.state)
         } else {
@@ -58,21 +61,12 @@ export class Path extends React.Component {
         } else {
           y = child.props.y
         }
-        this.state = {
-          ...this.state,
-          x,
-          y,
-        }
-        return `${path} ${type} ${x}, ${y}`
-      }
-      if (child.type.$type === PathTypes.line) {
-        let type
+      } else if (child.type.$type === PathTypes.line) {
         if (child.props.local) {
           type = 'l'
         } else {
           type = 'L'
         }
-        let x, y
         if (typeof child.props.x === 'function') {
           x = child.props.x(this.state)
         } else {
@@ -83,11 +77,17 @@ export class Path extends React.Component {
         } else {
           y = child.props.y
         }
-        this.state = {
-          ...this.state,
-          x,
-          y,
-        }
+      }
+      this.state = {
+        ...this.state,
+        x,
+        y,
+      }
+      if (
+        typeof type !== 'undefined' &&
+        typeof x !== 'undefined' &&
+        typeof y !== 'undefined'
+      ) {
         return `${path} ${type} ${x}, ${y}`
       }
       return path
