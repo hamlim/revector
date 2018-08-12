@@ -1,8 +1,12 @@
 {
   "name": "revector",
-  "version": "1.0.0",
+  "version": "0.0.1",
   "description": "Coming Soon",
-  "keywords": ["svg", "path", "react"],
+  "keywords": [
+    "svg",
+    "path",
+    "react"
+  ],
   "main": "src/index.js",
   "dependencies": {
     "react": "16.3.2",
