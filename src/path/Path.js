@@ -5,6 +5,8 @@ import { callOrReturn } from '../utils.js'
 /*
  SVG path commands
 
+ Reference: https://developer.mozilla.org/en-US/docs/Web/SVG/Attribute/d
+
  M absolute movement x,y
  m local movement x,y
  
